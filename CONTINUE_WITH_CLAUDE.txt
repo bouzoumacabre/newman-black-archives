@@ -1,0 +1,30 @@
+CONTINUE CE PROJET EXISTANT. NE RECOMMENCE PAS DE ZÉRO.
+
+Lis d'abord :
+- CLAUDE.md
+- HANDOFF_STATUS.md
+- README.md
+
+Puis inspecte le code existant et les captures dans docs/reference/.
+
+Le projet contient maintenant TROIS migrations Supabase à conserver dans l'ordre :
+1. supabase/migrations/202609220001_newman_black_archives.sql
+2. supabase/migrations/202609220002_hardening.sql
+3. supabase/migrations/202609220003_operator_messages.sql
+
+Ordre immédiat :
+1. npm install
+2. npm run check:repo
+3. npm run build
+4. Corrige toutes les erreurs TypeScript/build éventuelles jusqu'à BUILD SUCCESS.
+5. Crée un projet Supabase de test et applique les trois migrations dans l'ordre.
+6. Teste avec 2 joueurs + 1 GM les politiques RLS et les RPC review_submission / unlock_phase.
+7. Ne baisse JAMAIS la sécurité RLS pour résoudre un problème frontend.
+8. Fais ensuite le polish visuel final avec docs/reference/ comme référence.
+
+Le projet est déjà largement implémenté : auth, dashboard joueur, 4 phases, soumissions, transmissions, panneau Game Master, animations, logs lore, hébreu, terminal R-0 interactif, SQL Supabase/RLS et GitHub Pages.
+
+RÈGLE ABSOLUE :
+NEVER ADD TREASURE SOLUTIONS OR FUTURE GPS COORDINATES TO THE REPOSITORY.
+
+Les coordonnées doivent uniquement être créées lorsque le Game Master valide une analyse et les saisit à ce moment-là.

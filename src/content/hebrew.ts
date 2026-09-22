@@ -1,0 +1,15 @@
+export const HEBREW_FRAGMENTS = [
+  { hebrew: 'אמת', latin: 'Emet', meaning: 'vérité' },
+  { hebrew: 'מפתח', latin: 'Mafteah', meaning: 'clé' },
+  { hebrew: 'שער', latin: "Sha'ar", meaning: 'porte / portail' },
+  { hebrew: 'ירושה', latin: 'Yerusha', meaning: 'héritage' },
+  { hebrew: 'כסף', latin: 'Kesef', meaning: 'argent' },
+  { hebrew: 'ברית', latin: 'Brit', meaning: 'alliance / pacte' },
+  { hebrew: 'צפון', latin: 'Tsafon', meaning: 'nord' },
+  { hebrew: 'דרך', latin: 'Derekh', meaning: 'chemin' },
+  { hebrew: 'סוד', latin: 'Sod', meaning: 'secret' },
+  { hebrew: 'אור', latin: 'Or', meaning: 'lumière' },
+  { hebrew: 'צל', latin: 'Tzel', meaning: 'ombre' },
+  { hebrew: 'דם', latin: 'Dam', meaning: 'sang' },
+  { hebrew: 'סוף', latin: 'Sof', meaning: 'fin' },
+] as const
