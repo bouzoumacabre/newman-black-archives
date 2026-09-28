@@ -36,7 +36,7 @@ export function BootSequence({ onComplete }: { onComplete: () => void }) {
         ))}
         {index >= LINES.length && (
           <div className="boot-entry">
-            <h1>NEWMAN BLACK ARCHIVES</h1>
+            <h1 dir="rtl" lang="he">סדר מתוך כאוס</h1>
             <div className="terminal-rule" />
             <button className="terminal-button" onClick={onComplete}>[ INITIALISER LA CONNEXION ]</button>
           </div>

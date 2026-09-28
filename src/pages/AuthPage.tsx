@@ -57,7 +57,7 @@ export function AuthPage() {
     <TerminalShell>
       <section className="auth-wrap">
         <div className="terminal-kicker">BNW // BLACK ARCHIVES // AUTHENTICATION NODE</div>
-        <h1>NEWMAN BLACK ARCHIVES</h1>
+        <h1 dir="rtl" lang="he">סדר מתוך כאוס</h1>
         <div className="auth-status">
           <p>Aucune identité reconnue.</p>
           <p>&gt; {mode === 'signup' ? 'INIT GHOST' : 'AUTH GHOST'}</p>
