@@ -309,3 +309,61 @@ input:focus-visible, textarea:focus-visible, button:focus-visible, a:focus-visib
 .hebrew-quick-insert button:hover { border-color:var(--amber-bright); color:var(--amber-bright); }
 .hebrew-quick-insert button span { font-size:13px; }
 .hebrew-quick-insert button small { color:var(--text-muted); font-size:7px; letter-spacing:.06em; }
+
+/* Missions */
+select { width:100%; border:1px solid var(--border); border-radius:0; background:#090806; color:var(--amber-bright); padding:12px; }
+.mission-card { border:1px solid var(--border); padding:16px; margin-top:14px; background:rgba(8,7,4,.72); display:grid; gap:12px; }
+.mission-head { display:flex; flex-wrap:wrap; align-items:center; gap:12px; justify-content:space-between; }
+.mission-head h2 { margin:0; font-size:18px; color:var(--amber-bright); }
+.mission-head small, .mission-card > small { color:var(--text-muted); font-size:10px; }
+.mission-brief { margin:0; white-space:pre-wrap; line-height:1.65; font-size:12px; color:var(--text-bright); }
+.mission-image { display:block; max-width:100%; max-height:70vh; border:1px solid var(--border); }
+
+/* Hebrew, glitch, hack ambience */
+.he { font-family: "Segoe UI", "Arial Hebrew", sans-serif; letter-spacing: 0; color: var(--amber); font-size: .9em; text-shadow: 0 0 8px rgba(229,163,59,.35); animation: heFlicker 5s steps(1) infinite; }
+@keyframes heFlicker { 0%,92%,100% { opacity: 1 } 93% { opacity: .35 } 95% { opacity: .9 } 97% { opacity: .5 } }
+.blink-slow { animation: blink 2.4s steps(1) infinite; }
+
+.glitch-text { position: relative; display: inline-block; }
+.glitch-text::before, .glitch-text::after { content: attr(data-text); position: absolute; inset: 0; pointer-events: none; opacity: 0; }
+.glitch-text::before { color: #ff5b57; transform: translate(-2px, 0); clip-path: inset(0 0 55% 0); animation: glitchA 5.5s steps(1) infinite; }
+.glitch-text::after { color: #e5a33b; transform: translate(2px, 0); clip-path: inset(55% 0 0 0); animation: glitchB 5.5s steps(1) infinite 0.2s; }
+@keyframes glitchA { 0%,90%,100% { opacity: 0 } 91% { opacity: .8; transform: translate(-3px,-1px) } 93% { opacity: .6; transform: translate(2px,1px) } 95% { opacity: 0 } }
+@keyframes glitchB { 0%,90%,100% { opacity: 0 } 92% { opacity: .8; transform: translate(3px,1px) } 94% { opacity: .5; transform: translate(-2px,0) } 96% { opacity: 0 } }
+
+.hack-ticker { overflow: hidden; white-space: nowrap; border-bottom: 1px solid rgba(201,133,34,.14); font-size: 10px; color: var(--amber-dark); padding: 5px 0; }
+.hack-ticker span { display: inline-block; padding-left: 100%; animation: tickerRun 90s linear infinite; }
+@keyframes tickerRun { to { transform: translateX(-100%); } }
+
+.hack-feed { border: 1px solid var(--border); background: rgba(5,5,3,.7); padding: 12px 14px; margin: 0 0 22px; font-size: 11px; line-height: 1.7; color: var(--text-muted); min-height: 60px; overflow: hidden; position: relative; }
+.hack-feed .warn { color: var(--danger); }
+.hack-feed div:last-child { color: var(--amber-bright); }
+.hack-feed::after { content: ""; position: absolute; left: 0; right: 0; height: 22px; top: -22px; background: linear-gradient(transparent, rgba(229,163,59,.08), transparent); animation: feedSweep 4.5s linear infinite; }
+@keyframes feedSweep { to { transform: translateY(260px); } }
+
+.confidential-stamp { display: inline-block; border: 2px solid rgba(255,91,87,.55); color: rgba(255,91,87,.8); padding: 4px 10px; font-size: 11px; letter-spacing: .22em; transform: rotate(-2deg); margin-bottom: 12px; animation: stampPulse 3.2s ease-in-out infinite; }
+.confidential-stamp .he { color: inherit; text-shadow: none; }
+@keyframes stampPulse { 0%,100% { opacity: .85 } 50% { opacity: .45 } }
+
+.mission-card, .admin-panel, .auth-wrap { position: relative; overflow: hidden; }
+.mission-card::after, .admin-panel::after, .auth-wrap::after { content: ""; position: absolute; left: 0; right: 0; top: -2px; height: 2px; background: linear-gradient(90deg, transparent, rgba(229,163,59,.35), transparent); animation: scanBorder 7s linear infinite; pointer-events: none; }
+@keyframes scanBorder { to { transform: translateY(600px); } }
+.terminal-button:hover { box-shadow: 0 0 14px rgba(229,163,59,.25); }
+.inline-select { width: auto; padding: 6px 8px; font-size: 11px; }
+
+.chat-box { border: 1px solid var(--border); background: rgba(8,7,4,.72); }
+.chat-log { height: min(56vh, 520px); overflow: auto; padding: 14px; display: grid; align-content: start; gap: 6px; }
+.chat-line { display: grid; grid-template-columns: 48px minmax(80px, 140px) 1fr auto; gap: 10px; font-size: 12px; line-height: 1.5; }
+.chat-line time { color: var(--text-muted); font-size: 10px; }
+.chat-line strong { color: var(--amber-bright); overflow: hidden; text-overflow: ellipsis; }
+.chat-line.mine strong { color: var(--success); }
+.chat-line span { color: var(--text-bright); word-break: break-word; white-space: pre-wrap; }
+.chat-form { display: flex; gap: 8px; border-top: 1px solid var(--border); padding: 10px; }
+.chat-form input { flex: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .he, .blink-slow, .glitch-text::before, .glitch-text::after, .hack-ticker span, .hack-feed::after, .confidential-stamp,
+  .mission-card::after, .admin-panel::after, .auth-wrap::after { animation: none; }
+  .hack-ticker span { padding-left: 0; }
+}
+@media (max-width: 640px) { .chat-line { grid-template-columns: 1fr; gap: 0; } }

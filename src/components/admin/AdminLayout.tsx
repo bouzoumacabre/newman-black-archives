@@ -1,22 +1,26 @@
 import { NavLink } from 'react-router-dom'
 import { TerminalShell } from '../layout/TerminalShell'
+import { GlitchText } from '../animations/GlitchText'
+import { He } from '../animations/HebrewWord'
+import { useAuth } from '../../contexts/AuthContext'
 
 const navClass = ({ isActive }: { isActive: boolean }) => isActive ? 'active' : undefined
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
+  const { profile } = useAuth()
+  const isAdmin = profile?.role === 'admin'
   return (
-    <TerminalShell maxPhase={1} currentPhase={1} fragments={4} control>
+    <TerminalShell control>
       <section className="admin-shell">
         <header className="admin-header">
-          <div className="terminal-kicker">NEWMAN ARCHIVE CONTROL SYSTEM</div>
-          <h1>TREASURE PROTOCOL</h1>
-          <p>GAME MASTER CLEARANCE</p>
+          <div className="terminal-kicker">RÉSEAU PRIVÉ · CONTROL · <He>שליטה</He></div>
+          <h1><GlitchText>ORDRES DE MISSION</GlitchText></h1>
+          <p>{isAdmin ? 'SN CLEARANCE' : 'ÉQUIPE'}</p>
         </header>
-        <nav className="admin-nav" aria-label="navigation Game Master">
-          <NavLink end to="/control" className={navClass}>OVERVIEW</NavLink>
-          <NavLink to="/control/submissions" className={navClass}>SUBMISSIONS</NavLink>
-          <NavLink to="/control/players" className={navClass}>PLAYERS</NavLink>
-          <NavLink to="/control/transmissions" className={navClass}>TRANSMISSIONS</NavLink>
+        <nav className="admin-nav" aria-label="navigation SN">
+          {isAdmin && <NavLink end to="/control" className={navClass}>OVERVIEW</NavLink>}
+          <NavLink to="/control/missions" className={navClass}>MISSIONS</NavLink>
+          {isAdmin && <NavLink to="/control/accounts" className={navClass}>INSCRIPTIONS</NavLink>}
         </nav>
         {children}
       </section>

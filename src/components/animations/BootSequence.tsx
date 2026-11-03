@@ -1,18 +1,16 @@
 import { useEffect, useState } from 'react'
 import { TypingText } from './TypingText'
+import { GlitchText } from './GlitchText'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 
 const LINES = [
   'BNW-VLT-1924',
-  'INITIALIZING NEWMAN PRIVATE NETWORK...',
-  'SEARCHING ARCHIVE NODES...',
-  'BLACK ARCHIVES FOUND.',
-  'REMOTE CONNECTION DETECTED.',
-  'ORIGIN ............... UNKNOWN',
-  'AUTHORIZATION ........ NONE',
+  'INITIALIZING PRIVATE NETWORK...',
+  'SEARCHING SECURE NODES...',
+  'CHANNEL SN FOUND.',
+  'ENCRYPTION ........... AES-256-GCM',
   'FIREWALL ............. ACTIVE',
-  'OVERRIDE ............. DETECTED',
-  'GHOST PROTOCOL ....... AVAILABLE',
+  'AUTHORIZATION ........ REQUIRED',
 ]
 
 export function BootSequence({ onComplete }: { onComplete: () => void }) {
@@ -36,7 +34,7 @@ export function BootSequence({ onComplete }: { onComplete: () => void }) {
         ))}
         {index >= LINES.length && (
           <div className="boot-entry">
-            <h1 dir="rtl" lang="he">סדר מתוך כאוס</h1>
+            <h1 dir="rtl" lang="he"><GlitchText>סדר מתוך כאוס</GlitchText></h1>
             <div className="terminal-rule" />
             <button className="terminal-button" onClick={onComplete}>[ INITIALISER LA CONNEXION ]</button>
           </div>

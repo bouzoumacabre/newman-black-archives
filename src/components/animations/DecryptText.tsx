@@ -1,35 +1,27 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 
-const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*אמתשער'
+const POOL = '01#@%$&*+=<>/|אמשרתסקל'
 
-export function DecryptText({ text, duration = 1200, className }: { text: string; duration?: number; className?: string }) {
+// Scrambles, then resolves left to right.
+export function DecryptText({ text, duration = 800 }: { text: string; duration?: number }) {
   const reduced = useReducedMotion()
-  const target = useMemo(() => [...text], [text])
-  const [output, setOutput] = useState(text)
+  const [out, setOut] = useState(reduced ? text : '')
 
   useEffect(() => {
     if (reduced) {
-      setOutput(text)
+      setOut(text)
       return
     }
-    const started = performance.now()
-    let raf = 0
-    const frame = (now: number) => {
-      const progress = Math.min(1, (now - started) / duration)
-      const fixed = Math.floor(target.length * progress)
-      const result = target.map((char, index) => {
-        if (char === ' ' || char === '\n') return char
-        if (index < fixed) return char
-        return GLYPHS[Math.floor(Math.random() * GLYPHS.length)]
-      }).join('')
-      setOutput(result)
-      if (progress < 1) raf = requestAnimationFrame(frame)
-      else setOutput(text)
-    }
-    raf = requestAnimationFrame(frame)
-    return () => cancelAnimationFrame(raf)
-  }, [text, duration, reduced, target])
+    const start = performance.now()
+    const timer = window.setInterval(() => {
+      const progress = Math.min(1, (performance.now() - start) / duration)
+      const fixed = Math.floor(progress * text.length)
+      setOut(text.split('').map((c, i) => (i < fixed || c === ' ' ? c : POOL[Math.floor(Math.random() * POOL.length)])).join(''))
+      if (progress >= 1) window.clearInterval(timer)
+    }, 40)
+    return () => window.clearInterval(timer)
+  }, [text, duration, reduced])
 
-  return <span className={className}>{output}</span>
+  return <>{out}</>
 }

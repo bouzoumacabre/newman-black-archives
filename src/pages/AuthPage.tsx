@@ -5,6 +5,8 @@ import { useAuth } from '../contexts/AuthContext'
 import { humanizeError } from '../lib/errors'
 import { isValidUsername, normalizeUsername } from '../lib/auth'
 import { useToast } from '../components/ui/Toast'
+import { ConfidentialStamp } from '../components/animations/HackFeed'
+import { GlitchText } from '../components/animations/GlitchText'
 
 export function AuthPage() {
   const { user, signIn, signUp, configured } = useAuth()
@@ -40,7 +42,7 @@ export function AuthPage() {
     try {
       if (mode === 'signup') {
         const sessionOpened = await signUp(clean, password)
-        if (sessionOpened) pushToast('[ok] IDENTITÉ FANTÔME INITIALISÉE', 'success')
+        if (sessionOpened) pushToast('[ok] DEMANDE ENVOYÉE — EN ATTENTE DE VALIDATION', 'success')
         else pushToast('[!!] IDENTITÉ CRÉÉE MAIS SESSION BLOQUÉE — DÉSACTIVEZ LA CONFIRMATION EMAIL DANS SUPABASE', 'warning')
       } else {
         await signIn(clean, password)
@@ -56,8 +58,9 @@ export function AuthPage() {
   return (
     <TerminalShell>
       <section className="auth-wrap">
-        <div className="terminal-kicker">BNW // BLACK ARCHIVES // AUTHENTICATION NODE</div>
-        <h1 dir="rtl" lang="he">סדר מתוך כאוס</h1>
+        <ConfidentialStamp />
+        <div className="terminal-kicker">BNW-VLT-1924 // NOEUD D'AUTHENTIFICATION</div>
+        <h1 dir="rtl" lang="he"><GlitchText>סדר מתוך כאוס</GlitchText></h1>
         <div className="auth-status">
           <p>Aucune identité reconnue.</p>
           <p>&gt; {mode === 'signup' ? 'INIT GHOST' : 'AUTH GHOST'}</p>
@@ -80,7 +83,6 @@ export function AuthPage() {
         <button className="link-button auth-switch" onClick={() => setMode((m) => m === 'login' ? 'signup' : 'login')}>
           {mode === 'login' ? '> AUCUNE IDENTITÉ ? INITIALISER UNE EMPREINTE' : '> IDENTITÉ EXISTANTE ? OUVRIR LE CANAL'}
         </button>
-        {mode === 'signup' && <div className="r0-auth-note">VOUS N'ÊTES PAS AUTORISÉ À ÊTRE ICI.<br />MAIS QUELQU'UN A LAISSÉ LA PORTE OUVERTE.<br /><span>— R-0</span></div>}
       </section>
     </TerminalShell>
   )

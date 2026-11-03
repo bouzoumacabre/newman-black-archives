@@ -1,50 +1,33 @@
-export type UserRole = 'player' | 'admin'
-export type SubmissionStatus = 'pending' | 'approved' | 'rejected' | 'revision_requested'
+export type UserRole = 'player' | 'manager' | 'admin'
+export type AccountStatus = 'pending' | 'approved' | 'rejected'
+export type MissionStatus = 'active' | 'awaiting_validation' | 'validated'
 
 export interface Profile {
   user_id: string
   username: string
   role: UserRole
+  status: AccountStatus
   created_at: string
 }
 
-export interface PlayerProgress {
+export interface Mission {
+  id: string
   user_id: string
-  phase_no: number
-  unlocked_at: string
+  title: string
+  brief: string | null
+  image_path: string | null
+  status: MissionStatus
+  created_at: string
   completed_at: string | null
+  validated_at: string | null
 }
 
-export interface Submission {
+export interface ChatMessage {
   id: string
   user_id: string
-  phase_no: number
-  answer: string
-  status: SubmissionStatus
-  admin_message: string | null
-  created_at: string
-  reviewed_at: string | null
-  reviewed_by: string | null
-}
-
-export interface Transmission {
-  id: string
-  user_id: string
-  phase_no: number
-  coordinates: string
-  message: string | null
-  created_at: string
-  created_by: string
-}
-
-
-export interface OperatorMessage {
-  id: string
-  user_id: string
-  phase_no: number | null
   body: string
   created_at: string
-  created_by: string
+  profiles?: { username: string } | null
 }
 
 export interface ActivityEvent {
@@ -53,19 +36,4 @@ export interface ActivityEvent {
   event_type: string
   label: string
   created_at: string
-}
-
-export interface PhaseDefinition {
-  no: number
-  roman: string
-  code: string
-  name: string
-  documents: string
-  subtitle: string
-  sector: string
-  flavor: 'bank' | 'intel' | 'oac' | 'collapse'
-}
-
-export interface AdminSubmissionRow extends Submission {
-  profiles?: { username: string } | null
 }

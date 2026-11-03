@@ -1,15 +1,7 @@
-export const HEBREW_FRAGMENTS = [
-  { hebrew: 'אמת', latin: 'Emet', meaning: 'vérité' },
-  { hebrew: 'מפתח', latin: 'Mafteah', meaning: 'clé' },
-  { hebrew: 'שער', latin: "Sha'ar", meaning: 'porte / portail' },
-  { hebrew: 'ירושה', latin: 'Yerusha', meaning: 'héritage' },
-  { hebrew: 'כסף', latin: 'Kesef', meaning: 'argent' },
-  { hebrew: 'ברית', latin: 'Brit', meaning: 'alliance / pacte' },
-  { hebrew: 'צפון', latin: 'Tsafon', meaning: 'nord' },
-  { hebrew: 'דרך', latin: 'Derekh', meaning: 'chemin' },
-  { hebrew: 'סוד', latin: 'Sod', meaning: 'secret' },
-  { hebrew: 'אור', latin: 'Or', meaning: 'lumière' },
-  { hebrew: 'צל', latin: 'Tzel', meaning: 'ombre' },
-  { hebrew: 'דם', latin: 'Dam', meaning: 'sang' },
-  { hebrew: 'סוף', latin: 'Sof', meaning: 'fin' },
-] as const
+// Single words only, used as atmosphere. Never a sentence.
+export const HEBREW = [
+  'סודי', 'פקודה', 'משימה', 'גישה', 'אושר', 'נדחה', 'הצפנה', 'רשת', 'צל', 'שקט',
+  'חשאי', 'מפתח', 'אות', 'עורב', 'לילה', 'שער', 'קוד', 'נאמן', 'ציות', 'הסוואה',
+]
+
+export const pickHebrew = () => HEBREW[Math.floor(Math.random() * HEBREW.length)]

@@ -18,35 +18,14 @@ export function humanizeError(error: unknown): string {
   if (normalized.includes('invalid ghost alias')) {
     return 'ALIAS INVALIDE — EMPREINTE REJETÉE'
   }
-  if (normalized.includes('pending_submission_once') || normalized.includes('duplicate key') && normalized.includes('submissions')) {
-    return "TRANSMISSION DÉJÀ EN COURS — R-0 N'A PAS ENCORE TRAITÉ LE PAQUET PRÉCÉDENT"
+  if (normalized.includes('cannot edit self') || normalized.includes('admin role is manual')) {
+    return 'OPÉRATION NON AUTORISÉE SUR CE COMPTE'
   }
-  if (normalized.includes('transmissions_one_per_phase')) {
-    return 'UNE TRANSMISSION A DÉJÀ ÉTÉ ÉMISE POUR CE FRAGMENT'
+  if (normalized.includes('mission not available')) {
+    return 'MISSION INDISPONIBLE — DÉJÀ DÉCLARÉE OU NON ASSIGNÉE'
   }
-  if (normalized.includes('previous phase not cleared')) {
-    return 'ACCÈS REFUSÉ — LA PHASE PRÉCÉDENTE N’EST PAS VALIDÉE'
-  }
-  if (normalized.includes('coordinates required')) {
-    return 'COORDONNÉES REQUISES AVANT VALIDATION'
-  }
-  if (normalized.includes('coordinates too long')) {
-    return 'COORDONNÉES TROP LONGUES'
-  }
-  if (normalized.includes('submission already reviewed')) {
-    return 'TRANSMISSION DÉJÀ TRAITÉE — ACTUALISEZ LE CANAL'
-  }
-  if (normalized.includes('submission not found')) {
-    return 'TRANSMISSION INTROUVABLE'
-  }
-  if (normalized.includes('player not found')) {
-    return 'IDENTITÉ FANTÔME INTROUVABLE'
-  }
-  if (normalized.includes('message required')) {
-    return 'MESSAGE R-0 REQUIS'
-  }
-  if (normalized.includes('message too long')) {
-    return 'MESSAGE R-0 TROP LONG'
+  if (normalized.includes('not awaiting validation')) {
+    return 'MISSION DÉJÀ TRAITÉE — ACTUALISEZ LE CANAL'
   }
   if (normalized.includes('access denied') || normalized.includes('permission denied') || normalized.includes('row-level security')) {
     return 'ACCESS DENIED'

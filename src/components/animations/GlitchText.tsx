@@ -1,7 +1,3 @@
-export function GlitchText({ children, active = true, className = '' }: { children: string; active?: boolean; className?: string }) {
-  return (
-    <span className={`${active ? 'glitch' : ''} ${className}`} data-text={children}>
-      {children}
-    </span>
-  )
+export function GlitchText({ children, className = '' }: { children: string; className?: string }) {
+  return <span className={`glitch-text ${className}`} data-text={children}>{children}</span>
 }

@@ -1,13 +1,16 @@
-export function StatusBadge({ status }: { status: string }) {
-  const normalized = status.toLowerCase()
-  const cls = normalized === 'approved' || normalized === 'cleared' || normalized === 'active'
-    ? 'status-ok'
-    : normalized === 'rejected' || normalized === 'locked' || normalized === 'access denied' || normalized === 'retry'
-      ? 'status-danger'
-      : normalized === 'revision_requested' || normalized === 'revision required'
-        ? 'status-warning'
-        : 'status-pending'
+import type { MissionStatus } from '../../types'
 
-  const label = status.replaceAll('_', ' ').toUpperCase()
-  return <span className={`status-badge ${cls}`}>{label}</span>
+const LABEL: Record<MissionStatus, string> = {
+  active: 'EN COURS',
+  awaiting_validation: 'ATTENTE VALIDATION',
+  validated: 'VALIDÉE',
+}
+const CLASS: Record<MissionStatus, string> = {
+  active: 'status-pending',
+  awaiting_validation: 'status-warning',
+  validated: 'status-ok',
+}
+
+export function StatusBadge({ status }: { status: MissionStatus }) {
+  return <span className={`status-badge ${CLASS[status]}`}>{LABEL[status]}</span>
 }

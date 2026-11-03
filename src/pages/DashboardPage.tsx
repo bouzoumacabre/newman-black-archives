@@ -1,65 +1,89 @@
-import { PHASES } from '../content/phases'
-import { R0_INTRO } from '../content/systemLogs'
-import { PhaseCard } from '../components/phases/PhaseCard'
-import { SystemLogFeed } from '../components/phases/SystemLogFeed'
+import { useState } from 'react'
+import { ConfidentialStamp, HackFeed } from '../components/animations/HackFeed'
+import { GlitchText } from '../components/animations/GlitchText'
+import { He } from '../components/animations/HebrewWord'
 import { TerminalShell } from '../components/layout/TerminalShell'
 import { LoadingTerminal } from '../components/ui/LoadingTerminal'
-import { usePlayerData } from '../hooks/usePlayerData'
-import { R0CommandPrompt } from '../components/terminal/R0CommandPrompt'
-import { PhaseUnlockNotice } from '../components/animations/PhaseUnlockNotice'
-import { R0Inbox } from '../components/phases/R0Inbox'
-import { IncomingTransmissionAlert } from '../components/phases/IncomingTransmissionAlert'
+import { StatusBadge } from '../components/ui/StatusBadge'
+import { MissionImage } from '../components/ui/MissionImage'
+import { useToast } from '../components/ui/Toast'
+import { useMissions } from '../hooks/useMissions'
+import { supabase } from '../lib/supabase'
+import { humanizeError } from '../lib/errors'
+import type { Mission } from '../types'
 
 export function DashboardPage() {
-  const { progress, submissions, transmissions, events, messages, loading, error, maxPhase } = usePlayerData()
+  const { missions, loading, error, refresh } = useMissions()
+  const { pushToast } = useToast()
+  const [busyId, setBusyId] = useState<string | null>(null)
+
   if (loading) return <TerminalShell><LoadingTerminal /></TerminalShell>
 
+  const complete = async (mission: Mission) => {
+    if (busyId || !window.confirm(`Déclarer « ${mission.title} » terminée ?`)) return
+    setBusyId(mission.id)
+    try {
+      const { error: err } = await supabase.rpc('complete_mission', { p_mission_id: mission.id })
+      if (err) throw err
+      pushToast('[ok] MISSION DÉCLARÉE TERMINÉE — EN ATTENTE DE VALIDATION', 'success')
+      await refresh()
+    } catch (err) {
+      pushToast(humanizeError(err), 'danger')
+    } finally {
+      setBusyId(null)
+    }
+  }
+
+  const open = missions.filter((m) => m.status !== 'validated')
+  const done = missions.filter((m) => m.status === 'validated')
+
   return (
-    <TerminalShell maxPhase={maxPhase} currentPhase={maxPhase} fragments={progress.filter((row) => row.completed_at).length}>
-      <PhaseUnlockNotice phaseNo={maxPhase} />
-      <IncomingTransmissionAlert transmissions={transmissions} />
+    <TerminalShell>
       <section className="command-log">
-        <div>$ ./r0 --leak newman_archive</div>
-        <div>[ok] montage de l'archive .............. 50 documents</div>
-        <div>[ok] vérification des empreintes ....... intactes</div>
-        <div>[ok] canal sortant ..................... chiffré</div>
-        <div>[!!] trace entrante détectée ........... source masquée</div>
+        <div>$ ./sn --ordres</div>
+        <div>[ok] canal sécurisé ................ établi</div>
+        <div>[ok] ordres en cours ............... {open.length}</div>
         {error && <div className="danger-text">[xx] sync error ........................ {error}</div>}
         <div>$ <span className="cursor">_</span></div>
       </section>
 
       <section className="r0-intro">
-        <div className="terminal-kicker">LE TRÉSOR DES NEWMAN · CANAL R-0</div>
-        <h1>Terminal R-0</h1>
-        <div className="r0-copy">
-          {R0_INTRO.map((text) => <p key={text}>{text}</p>)}
-          <strong>— R-0</strong>
-        </div>
+        <ConfidentialStamp />
+        <div className="terminal-kicker">CANAL SN · <He>פקודות</He></div>
+        <h1><GlitchText>Ordres de mission</GlitchText></h1>
       </section>
+      <HackFeed lines={6} />
 
-      <SystemLogFeed phaseNo={maxPhase} />
-      <R0Inbox messages={messages.filter((message) => message.phase_no == null || message.phase_no <= maxPhase)} limit={3} />
+      {open.length === 0 && <div className="empty-terminal">aucun ordre en attente. restez joignable.</div>}
+      {open.map((mission) => (
+        <section key={mission.id} className="mission-card">
+          <div className="mission-head">
+            <h2>{mission.title}</h2>
+            <StatusBadge status={mission.status} />
+          </div>
+          <small>émis le {new Date(mission.created_at).toLocaleString('fr-FR')}</small>
+          {mission.brief && <p className="mission-brief">{mission.brief}</p>}
+          <MissionImage path={mission.image_path} />
+          {mission.status === 'active' ? (
+            <button className="terminal-button" disabled={busyId === mission.id} onClick={() => void complete(mission)}>
+              {busyId === mission.id ? '[ TRANSMISSION... ]' : '[ MARQUER TERMINÉ ]'}
+            </button>
+          ) : (
+            <div className="locked-line">[en attente] SN examine votre rapport.</div>
+          )}
+        </section>
+      ))}
 
-      <div className="phase-list">
-        {PHASES.map((phase) => {
-          const p = progress.find((row) => row.phase_no === phase.no)
-          const submission = submissions.find((row) => row.phase_no === phase.no)
-          return <PhaseCard key={phase.no} phase={phase} progress={p} submission={submission} />
-        })}
-      </div>
-
-      <section className="activity-section">
-        <div className="terminal-kicker">SESSION ACTIVITY</div>
-        {events.length === 0 ? <p>aucun événement récupéré.</p> : (
+      {done.length > 0 && (
+        <section className="activity-section">
+          <div className="terminal-kicker">MISSIONS CLÔTURÉES</div>
           <div className="activity-log">
-            {events.slice(0, 12).map((event) => (
-              <div key={event.id}><time>{new Date(event.created_at).toLocaleString('fr-FR')}</time><span>{event.label}</span></div>
+            {done.map((m) => (
+              <div key={m.id}><time>{new Date(m.validated_at ?? m.created_at).toLocaleString('fr-FR')}</time><span>{m.title}</span></div>
             ))}
           </div>
-        )}
-      </section>
-
-      <R0CommandPrompt maxPhase={maxPhase} />
+        </section>
+      )}
     </TerminalShell>
   )
 }
