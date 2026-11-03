@@ -22,12 +22,23 @@ export interface Mission {
   validated_at: string | null
 }
 
+// Row of public.chat_feed(). sender_name is null when the author chose to hide their identity.
 export interface ChatMessage {
   id: string
-  user_id: string
   body: string
   created_at: string
-  profiles?: { username: string } | null
+  sender_name: string | null
+  recipient_id: string | null
+  recipient_name: string | null
+  is_mine: boolean
+  anonymous: boolean
+}
+
+export interface Announcement {
+  id: string
+  body: string
+  active: boolean
+  created_at: string
 }
 
 export interface ActivityEvent {

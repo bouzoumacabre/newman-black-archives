@@ -18,6 +18,15 @@ export function humanizeError(error: unknown): string {
   if (normalized.includes('invalid ghost alias')) {
     return 'ALIAS INVALIDE — EMPREINTE REJETÉE'
   }
+  if (normalized.includes('recipient not found')) {
+    return 'DESTINATAIRE INTROUVABLE'
+  }
+  if (normalized.includes('empty message')) {
+    return 'MESSAGE VIDE'
+  }
+  if (normalized.includes('message too long')) {
+    return 'MESSAGE TROP LONG'
+  }
   if (normalized.includes('cannot edit self') || normalized.includes('admin role is manual')) {
     return 'OPÉRATION NON AUTORISÉE SUR CE COMPTE'
   }

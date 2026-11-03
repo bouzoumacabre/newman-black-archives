@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { AdminLayout } from '../components/admin/AdminLayout'
 import { HackFeed } from '../components/animations/HackFeed'
+import { BroadcastPanel } from '../components/admin/BroadcastPanel'
 import { usePolling } from '../hooks/usePolling'
 import { useToast } from '../components/ui/Toast'
 import { humanizeError } from '../lib/errors'
@@ -55,6 +56,7 @@ export function AdminDashboardPage() {
         <Metric label="À VALIDER" value={counts.waiting} warning />
         <Metric label="VALIDÉES" value={counts.validated} />
       </div>
+      <BroadcastPanel />
       <HackFeed lines={5} />
       <section className="admin-panel">
         <div className="terminal-label">DERNIÈRE ACTIVITÉ</div>

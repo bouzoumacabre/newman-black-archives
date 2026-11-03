@@ -8,6 +8,7 @@ import { He, HebrewWord } from '../animations/HebrewWord'
 import { useAuth } from '../../contexts/AuthContext'
 import { NetworkPulse } from '../animations/NetworkPulse'
 import { useToast } from '../ui/Toast'
+import { AnnouncementBanner } from '../ui/AnnouncementBanner'
 import { humanizeError } from '../../lib/errors'
 
 function Clock() {
@@ -69,6 +70,7 @@ export function TerminalShell({ children, control = false }: { children: React.R
           </nav>
         )}
       </header>
+      {approved && <AnnouncementBanner />}
       <main className="terminal-main">{children}</main>
     </div>
   )
