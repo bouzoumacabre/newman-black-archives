@@ -21,6 +21,12 @@ export function humanizeError(error: unknown): string {
   if (normalized.includes('recipient not found')) {
     return 'DESTINATAIRE INTROUVABLE'
   }
+  if (normalized.includes('message not found')) {
+    return 'MESSAGE INTROUVABLE OU SUPPRESSION NON AUTORISÉE'
+  }
+  if (normalized.includes('invalid target')) {
+    return 'DESTINATAIRE INVALIDE'
+  }
   if (normalized.includes('empty message')) {
     return 'MESSAGE VIDE'
   }

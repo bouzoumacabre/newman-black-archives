@@ -32,6 +32,8 @@ export interface ChatMessage {
   recipient_name: string | null
   is_mine: boolean
   anonymous: boolean
+  audience: 'all' | 'staff'
+  can_delete: boolean
 }
 
 export interface Announcement {

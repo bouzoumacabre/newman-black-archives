@@ -10,6 +10,8 @@ import type { ChatMessage } from '../types'
 
 interface Member { user_id: string; username: string }
 
+const STAFF = 'staff' // select value for the admin + managers channel
+
 export function ChatPage() {
   const { user, profile } = useAuth()
   const { pushToast } = useToast()
@@ -52,7 +54,13 @@ export function ChatPage() {
     event.preventDefault()
     if (!text.trim() || busy) return
     setBusy(true)
-    const { error } = await supabase.rpc('send_message', { p_body: text, p_recipient: recipient || null, p_anonymous: anonymous })
+    const toStaff = recipient === STAFF
+    const { error } = await supabase.rpc('send_message', {
+      p_body: text,
+      p_recipient: recipient && !toStaff ? recipient : null,
+      p_anonymous: anonymous,
+      p_staff: toStaff,
+    })
     setBusy(false)
     if (error) {
       pushToast(humanizeError(error), 'danger')
@@ -68,7 +76,7 @@ export function ChatPage() {
     await load()
   }
 
-  const isAdmin = profile?.role === 'admin'
+  const isStaff = profile?.role === 'admin' || profile?.role === 'manager'
 
   return (
     <TerminalShell>
@@ -83,17 +91,18 @@ export function ChatPage() {
             const direct = m.recipient_id !== null
             const toMe = direct && !m.is_mine && m.recipient_id === user?.id
             return (
-              <div key={m.id} className={`chat-line ${m.is_mine ? 'mine' : ''} ${direct ? 'direct' : ''}`}>
+              <div key={m.id} className={`chat-line ${m.is_mine ? 'mine' : ''} ${direct ? 'direct' : ''} ${m.audience === 'staff' ? 'staff' : ''}`}>
                 <time>{new Date(m.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</time>
                 <strong>
                   {m.sender_name === null ? 'ANONYME' : m.sender_name}
                   {m.anonymous && m.sender_name !== null && ' (masqué)'}
                 </strong>
                 <span>
+                  {m.audience === 'staff' && <em className="dm-tag">[équipe] </em>}
                   {direct && <em className="dm-tag">{toMe ? '[privé → vous]' : `[privé → ${m.recipient_name}]`} </em>}
                   {m.body}
                 </span>
-                {isAdmin && <button className="link-button" onClick={() => void remove(m.id)} aria-label="supprimer">×</button>}
+                {m.can_delete && <button className="link-button" onClick={() => void remove(m.id)} aria-label="supprimer">×</button>}
               </div>
             )
           })}
@@ -102,6 +111,7 @@ export function ChatPage() {
         <form className="chat-form" onSubmit={send}>
           <select className="inline-select" value={recipient} onChange={(e) => setRecipient(e.target.value)} aria-label="destinataire">
             <option value="">À TOUS</option>
+            {isStaff && <option value={STAFF}>ÉQUIPE (admin + employés)</option>}
             {members.map((m) => <option key={m.user_id} value={m.user_id}>{m.username}</option>)}
           </select>
           <input value={text} maxLength={1000} onChange={(e) => setText(e.target.value)} placeholder="> transmettre un message" autoComplete="off" />

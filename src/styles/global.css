@@ -382,3 +382,4 @@ select { width:100%; border:1px solid var(--border); border-radius:0; background
 @keyframes announcePulse { 0%,100% { background: rgba(255,91,87,.1) } 50% { background: rgba(255,91,87,.2) } }
 .announcement-row { margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(201,133,34,.12); font-size: 12px; }
 @media (prefers-reduced-motion: reduce) { .announcement { animation: none; } }
+.chat-line.staff span { color: var(--success); }
