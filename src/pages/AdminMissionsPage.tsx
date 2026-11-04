@@ -133,7 +133,7 @@ export function AdminMissionsPage() {
       </section>}
 
       <section className="admin-panel">
-        <div className="terminal-label">{isAdmin ? 'TOUTES LES MISSIONS' : 'MES MISSIONS ÉMISES'}</div>
+        <div className="terminal-label">TOUTES LES MISSIONS</div>
         {missions.length === 0 && <div className="empty-terminal">aucune mission émise.</div>}
         {missions.map((m) => (
           <div className="mission-card" key={m.id}>

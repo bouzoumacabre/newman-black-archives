@@ -45,6 +45,6 @@ update public.profiles set role = 'admin' where username = 'votre_alias';
 
 ## Comptes, rôles, chat
 
-- Une inscription est **en attente** tant que l'admin ne l'a pas acceptée (`#/control/accounts`) : accepter comme **agent** (reçoit des missions) ou **employé** (peut émettre des missions et suivre les siennes), ou refuser.
+- Une inscription est **en attente** tant que l'admin ne l'a pas acceptée (`#/control/accounts`) : accepter comme **agent** (reçoit des missions) ou **employé** (émet des missions et voit toutes les missions, en cours ou transmises), ou refuser.
 - Seul l'admin valide / renvoie / supprime une mission. L'admin reste attribué à la main en SQL.
 - `#/chat` : canal commun pour tous les membres approuvés (l'admin peut supprimer un message).
