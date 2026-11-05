@@ -54,7 +54,6 @@ export function AdminDashboardPage() {
         <Metric label="AGENTS" value={counts.agents} />
         <Metric label="EN COURS" value={counts.active} />
         <Metric label="TERMINÉES" value={counts.waiting + counts.validated} />
-        <Metric label="VALIDÉES" value={counts.validated} />
       </div>
       <BroadcastPanel />
       <HackFeed lines={5} />

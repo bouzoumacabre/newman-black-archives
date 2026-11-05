@@ -58,10 +58,9 @@ export function DashboardPage() {
         <div className="terminal-kicker">CANAL SN · <He>פקודות</He></div>
         <h1><GlitchText>Ordres de mission</GlitchText></h1>
       </section>
-      <div className="admin-metrics metrics-three">
+      <div className="admin-metrics metrics-four metrics-spaced">
         <div className="metric"><small>EN COURS</small><strong>{active}</strong></div>
         <div className="metric"><small>TERMINÉES</small><strong>{mine.length - active}</strong></div>
-        <div className="metric"><small>VALIDÉES</small><strong>{done.length}</strong></div>
       </div>
       <HackFeed lines={6} />
 

@@ -103,10 +103,9 @@ export function AdminMissionsPage() {
 
   return (
     <AdminLayout>
-      <div className="admin-metrics metrics-three">
+      <div className="admin-metrics metrics-four">
         <div className="metric"><small>TOTAL EN COURS</small><strong>{totalActive}</strong></div>
         <div className="metric"><small>TOTAL TERMINÉES</small><strong>{missions.length - totalActive}</strong></div>
-        <div className="metric"><small>TOTAL VALIDÉES</small><strong>{missions.filter((m) => m.status === 'validated').length}</strong></div>
       </div>
 
       <section className="admin-panel">
@@ -150,8 +149,8 @@ export function AdminMissionsPage() {
         <div className="terminal-label">COMPTEUR PAR AGENT</div>
         {agents.length === 0 && <div className="empty-terminal">aucun agent.</div>}
         {agents.length > 0 && (
-          <div className="admin-table">
-            <div className="admin-table-head"><span>AGENT</span><span>EN COURS</span><span>TERMINÉES</span><span>VALIDÉES</span></div>
+          <div className="admin-table counter-table">
+            <div className="admin-table-head"><span>AGENT</span><span>EN COURS</span><span>TERMINÉES</span></div>
             {agents.map((a) => {
               const own = missions.filter((m) => m.user_id === a.user_id)
               const active = own.filter((m) => m.status === 'active').length
@@ -160,7 +159,6 @@ export function AdminMissionsPage() {
                   <span>{a.username}</span>
                   <span>{active}</span>
                   <span>{own.length - active}</span>
-                  <span>{own.filter((m) => m.status === 'validated').length}</span>
                 </div>
               )
             })}

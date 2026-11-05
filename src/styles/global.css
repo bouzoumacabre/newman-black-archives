@@ -383,5 +383,6 @@ select { width:100%; border:1px solid var(--border); border-radius:0; background
 .announcement-row { margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(201,133,34,.12); font-size: 12px; }
 @media (prefers-reduced-motion: reduce) { .announcement { animation: none; } }
 .chat-line.staff span { color: var(--success); }
-.admin-metrics.metrics-three { grid-template-columns:repeat(3,1fr); margin-bottom:22px; }
 .admin-metrics.metrics-four { grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); }
+.admin-metrics.metrics-spaced { margin-bottom:22px; }
+.counter-table .admin-table-head,.counter-table .admin-table-row { grid-template-columns:2fr 1fr 1fr; }
