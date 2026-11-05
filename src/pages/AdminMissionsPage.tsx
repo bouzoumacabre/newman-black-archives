@@ -133,6 +133,28 @@ export function AdminMissionsPage() {
       </section>}
 
       <section className="admin-panel">
+        <div className="terminal-label">COMPTEUR PAR AGENT</div>
+        {agents.length === 0 && <div className="empty-terminal">aucun agent.</div>}
+        {agents.length > 0 && (
+          <div className="admin-table">
+            <div className="admin-table-head"><span>AGENT</span><span>EN COURS</span><span>TERMINÉES</span><span>VALIDÉES</span></div>
+            {agents.map((a) => {
+              const own = missions.filter((m) => m.user_id === a.user_id)
+              const active = own.filter((m) => m.status === 'active').length
+              return (
+                <div className="admin-table-row static" key={a.user_id}>
+                  <span>{a.username}</span>
+                  <span>{active}</span>
+                  <span>{own.length - active}</span>
+                  <span>{own.filter((m) => m.status === 'validated').length}</span>
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </section>
+
+      <section className="admin-panel">
         <div className="terminal-label">TOUTES LES MISSIONS</div>
         {missions.length === 0 && <div className="empty-terminal">aucune mission émise.</div>}
         {missions.map((m) => (

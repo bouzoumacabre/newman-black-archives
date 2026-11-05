@@ -7,12 +7,14 @@ import { LoadingTerminal } from '../components/ui/LoadingTerminal'
 import { StatusBadge } from '../components/ui/StatusBadge'
 import { MissionImage } from '../components/ui/MissionImage'
 import { useToast } from '../components/ui/Toast'
+import { useAuth } from '../contexts/AuthContext'
 import { useMissions } from '../hooks/useMissions'
 import { supabase } from '../lib/supabase'
 import { humanizeError } from '../lib/errors'
 import type { Mission } from '../types'
 
 export function DashboardPage() {
+  const { user } = useAuth()
   const { missions, loading, error, refresh } = useMissions()
   const { pushToast } = useToast()
   const [busyId, setBusyId] = useState<string | null>(null)
@@ -34,8 +36,11 @@ export function DashboardPage() {
     }
   }
 
-  const open = missions.filter((m) => m.status !== 'validated')
-  const done = missions.filter((m) => m.status === 'validated')
+  // Staff can read every mission through RLS: this page only shows the viewer's own.
+  const mine = missions.filter((m) => m.user_id === user?.id)
+  const open = mine.filter((m) => m.status !== 'validated')
+  const done = mine.filter((m) => m.status === 'validated')
+  const active = mine.filter((m) => m.status === 'active').length
 
   return (
     <TerminalShell>
@@ -52,6 +57,11 @@ export function DashboardPage() {
         <div className="terminal-kicker">CANAL SN · <He>פקודות</He></div>
         <h1><GlitchText>Ordres de mission</GlitchText></h1>
       </section>
+      <div className="admin-metrics metrics-three">
+        <div className="metric"><small>EN COURS</small><strong>{active}</strong></div>
+        <div className="metric"><small>TERMINÉES</small><strong>{mine.length - active}</strong></div>
+        <div className="metric"><small>VALIDÉES</small><strong>{done.length}</strong></div>
+      </div>
       <HackFeed lines={6} />
 
       {open.length === 0 && <div className="empty-terminal">aucun ordre en attente. restez joignable.</div>}

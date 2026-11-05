@@ -53,6 +53,7 @@ export function AdminDashboardPage() {
       <div className="admin-metrics">
         <Metric label="AGENTS" value={counts.agents} />
         <Metric label="EN COURS" value={counts.active} />
+        <Metric label="TERMINÉES" value={counts.waiting + counts.validated} />
         <Metric label="À VALIDER" value={counts.waiting} warning />
         <Metric label="VALIDÉES" value={counts.validated} />
       </div>
