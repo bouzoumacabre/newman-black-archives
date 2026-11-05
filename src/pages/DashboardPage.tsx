@@ -4,6 +4,7 @@ import { GlitchText } from '../components/animations/GlitchText'
 import { He } from '../components/animations/HebrewWord'
 import { TerminalShell } from '../components/layout/TerminalShell'
 import { LoadingTerminal } from '../components/ui/LoadingTerminal'
+import { ConfirmButton } from '../components/ui/ConfirmButton'
 import { StatusBadge } from '../components/ui/StatusBadge'
 import { MissionImage } from '../components/ui/MissionImage'
 import { useToast } from '../components/ui/Toast'
@@ -22,7 +23,7 @@ export function DashboardPage() {
   if (loading) return <TerminalShell><LoadingTerminal /></TerminalShell>
 
   const complete = async (mission: Mission) => {
-    if (busyId || !window.confirm(`Déclarer « ${mission.title} » terminée ?`)) return
+    if (busyId) return
     setBusyId(mission.id)
     try {
       const { error: err } = await supabase.rpc('complete_mission', { p_mission_id: mission.id })
@@ -75,9 +76,13 @@ export function DashboardPage() {
           {mission.brief && <p className="mission-brief">{mission.brief}</p>}
           <MissionImage path={mission.image_path} />
           {mission.status === 'active' ? (
-            <button className="terminal-button" disabled={busyId === mission.id} onClick={() => void complete(mission)}>
-              {busyId === mission.id ? '[ TRANSMISSION... ]' : '[ MARQUER TERMINÉ ]'}
-            </button>
+            <ConfirmButton
+              className="terminal-button"
+              disabled={busyId === mission.id}
+              label={busyId === mission.id ? '[ TRANSMISSION... ]' : '[ MARQUER TERMINÉ ]'}
+              confirmLabel="[ CONFIRMER : MISSION TERMINÉE ]"
+              onConfirm={() => void complete(mission)}
+            />
           ) : (
             <div className="locked-line">[en attente] SN examine votre rapport.</div>
           )}

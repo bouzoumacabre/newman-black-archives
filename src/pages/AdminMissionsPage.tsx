@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { AdminLayout } from '../components/admin/AdminLayout'
+import { ConfirmButton } from '../components/ui/ConfirmButton'
 import { StatusBadge } from '../components/ui/StatusBadge'
 import { MissionImage } from '../components/ui/MissionImage'
 import { useToast } from '../components/ui/Toast'
@@ -81,7 +82,6 @@ export function AdminMissionsPage() {
   }
 
   const remove = async (id: string, imagePath: string | null) => {
-    if (!window.confirm('Supprimer définitivement cette mission ?')) return
     const { error } = await supabase.from('missions').delete().eq('id', id)
     if (error) {
       pushToast(humanizeError(error), 'danger')
@@ -163,7 +163,7 @@ export function AdminMissionsPage() {
               <strong>{m.title}</strong>
               <small>{nameOf(m.user_id)} · {new Date(m.created_at).toLocaleString('fr-FR')}</small>
               <StatusBadge status={m.status} />
-              {isAdmin && <button className="link-button" onClick={() => void remove(m.id, m.image_path)}>SUPPRIMER</button>}
+              {isAdmin && <ConfirmButton className="link-button" label="SUPPRIMER" confirmLabel="CONFIRMER LA SUPPRESSION" onConfirm={() => void remove(m.id, m.image_path)} />}
             </div>
             {m.brief && <p className="mission-brief">{m.brief}</p>}
             <MissionImage path={m.image_path} />

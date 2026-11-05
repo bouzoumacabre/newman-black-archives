@@ -5,6 +5,9 @@ Portail RP FiveM de missions. L'opérateur du réseau est **SN** — ne jamais �
 ## Stack
 React + TypeScript + Vite, HashRouter, Supabase (Auth + Postgres RLS + Storage). CSS maison.
 
+## Navigateur
+Le site est utilisé dans le navigateur intégré de FiveM (`CitizenFX`). Ne jamais utiliser `window.confirm`, `alert` ou `prompt` : le clic y échoue sans message. Utiliser `ConfirmButton`.
+
 ## Visuel
 Terminal noir / ambre, bordures carrées, monospace, scanlines. Pas de vert Matrix ni de cyan.
 
