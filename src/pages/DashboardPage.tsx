@@ -41,7 +41,6 @@ export function DashboardPage() {
   const mine = missions.filter((m) => m.user_id === user?.id)
   const open = mine.filter((m) => m.status !== 'validated')
   const done = mine.filter((m) => m.status === 'validated')
-  const active = mine.filter((m) => m.status === 'active').length
 
   return (
     <TerminalShell>
@@ -59,8 +58,8 @@ export function DashboardPage() {
         <h1><GlitchText>Ordres de mission</GlitchText></h1>
       </section>
       <div className="admin-metrics metrics-four metrics-spaced">
-        <div className="metric"><small>EN COURS</small><strong>{active}</strong></div>
-        <div className="metric"><small>TERMINÉES</small><strong>{mine.length - active}</strong></div>
+        <div className="metric"><small>EN COURS</small><strong>{open.length}</strong></div>
+        <div className="metric"><small>VALIDÉES</small><strong>{done.length}</strong></div>
       </div>
       <HackFeed lines={6} />
 
