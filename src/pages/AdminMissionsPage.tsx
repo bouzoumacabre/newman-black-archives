@@ -99,9 +99,16 @@ export function AdminMissionsPage() {
   }
 
   const waiting = missions.filter((m) => m.status === 'awaiting_validation')
+  const totalActive = missions.filter((m) => m.status === 'active').length
 
   return (
     <AdminLayout>
+      <div className="admin-metrics metrics-three">
+        <div className="metric"><small>TOTAL EN COURS</small><strong>{totalActive}</strong></div>
+        <div className="metric"><small>TOTAL TERMINÉES</small><strong>{missions.length - totalActive}</strong></div>
+        <div className="metric"><small>TOTAL VALIDÉES</small><strong>{missions.filter((m) => m.status === 'validated').length}</strong></div>
+      </div>
+
       <section className="admin-panel">
         <div className="terminal-label">NOUVEL ORDRE</div>
         <form className="auth-form" onSubmit={create}>
