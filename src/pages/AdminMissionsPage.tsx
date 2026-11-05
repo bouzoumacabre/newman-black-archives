@@ -81,6 +81,13 @@ export function AdminMissionsPage() {
     await refresh()
   }
 
+  const close = async (id: string) => {
+    const { error } = await supabase.rpc('close_mission', { p_mission_id: id })
+    if (error) pushToast(humanizeError(error), 'danger')
+    else pushToast('[ok] MISSION CLÔTURÉE', 'success')
+    await refresh()
+  }
+
   const remove = async (id: string, imagePath: string | null) => {
     const { error } = await supabase.from('missions').delete().eq('id', id)
     if (error) {
@@ -163,6 +170,7 @@ export function AdminMissionsPage() {
               <strong>{m.title}</strong>
               <small>{nameOf(m.user_id)} · {new Date(m.created_at).toLocaleString('fr-FR')}</small>
               <StatusBadge status={m.status} />
+              {isAdmin && m.status === 'active' && <ConfirmButton className="link-button" label="CLÔTURER" confirmLabel="CONFIRMER LA CLÔTURE" onConfirm={() => void close(m.id)} />}
               {isAdmin && <ConfirmButton className="link-button" label="SUPPRIMER" confirmLabel="CONFIRMER LA SUPPRESSION" onConfirm={() => void remove(m.id, m.image_path)} />}
             </div>
             {m.brief && <p className="mission-brief">{m.brief}</p>}

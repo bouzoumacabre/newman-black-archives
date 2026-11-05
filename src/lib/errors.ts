@@ -36,6 +36,9 @@ export function humanizeError(error: unknown): string {
   if (normalized.includes('cannot edit self') || normalized.includes('admin role is manual')) {
     return 'OPÉRATION NON AUTORISÉE SUR CE COMPTE'
   }
+  if (normalized.includes('mission not active')) {
+    return "MISSION DÉJÀ TERMINÉE PAR L'AGENT OU CLÔTURÉE — ACTUALISEZ LE CANAL"
+  }
   if (normalized.includes('mission not available')) {
     return 'MISSION INDISPONIBLE — DÉJÀ DÉCLARÉE OU NON ASSIGNÉE'
   }
