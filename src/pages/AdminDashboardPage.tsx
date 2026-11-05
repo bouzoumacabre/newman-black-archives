@@ -50,11 +50,10 @@ export function AdminDashboardPage() {
 
   return (
     <AdminLayout>
-      <div className="admin-metrics">
+      <div className="admin-metrics metrics-four">
         <Metric label="AGENTS" value={counts.agents} />
         <Metric label="EN COURS" value={counts.active} />
         <Metric label="TERMINÉES" value={counts.waiting + counts.validated} />
-        <Metric label="À VALIDER" value={counts.waiting} warning />
         <Metric label="VALIDÉES" value={counts.validated} />
       </div>
       <BroadcastPanel />
@@ -76,6 +75,6 @@ export function AdminDashboardPage() {
   )
 }
 
-function Metric({ label, value, warning }: { label: string; value: number; warning?: boolean }) {
-  return <div className={`metric ${warning ? 'warning' : ''}`}><small>{label}</small><strong>{value}</strong></div>
+function Metric({ label, value }: { label: string; value: number }) {
+  return <div className="metric"><small>{label}</small><strong>{value}</strong></div>
 }
